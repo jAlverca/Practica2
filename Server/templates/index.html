@@ -1,0 +1,67 @@
+{% extends 'template.html' %} {% block content %}
+
+<main class="text-white p-5 my-3">
+    <h1 class="h1 text-center mb-4">Lista de Inversionistas</h1>
+    <div class="container">
+        <div class="row justify-content-between mb-3">
+            <div class="col-auto">
+                <a href="/person/register" class="btn btn-danger">Agregar Inversionista</a>
+            </div>
+            <div class="col-auto">
+                <a href="/transaccion/list" class="btn btn-info">Ver historial de transacciones</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <table class="table table-dark table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Nombres</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Cédula</th>
+                            <th scope="col">Teléfono</th>
+                            <th scope="col">Proyectos</th>
+                            <th scope="col">Modificar</th>
+                            <th scope="col">Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista %}
+                        <tr>
+                            <td>{{ valor.nombre }}</td>
+                            <td>{{ valor.apellido }}</td>
+                            <td>{{ valor.cedula }}</td>
+                            <td>{{ valor.telefono }}</td>
+                            <td>
+                                <a href="/proyecto/list" class="btn btn-info">Ver Proyectos</a>
+                            </td>
+                            <td>
+                                <a href="/person/edit/{{ valor.idPersona }}" class="btn btn-info">Modificar</a>
+                            </td>
+                            <td>
+                                <form action="/person/delete/{{ valor.idPersona }}" method="post"
+                                    onsubmit="return confirmDelete()">
+                                    <button type="submit" class="btn btn-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function confirmDelete() {
+        return confirm(
+            "¿Estás seguro de que deseas eliminar este inversionista?"
+        );
+    }
+</script>
+
+{% endblock %}

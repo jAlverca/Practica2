@@ -1,0 +1,30 @@
+{% extends "template.html" %} {% block content %}
+<div class="container my-5">
+    <h2 class="text-center text-white mb-4">Historial de Transacciones</h2>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/" class="btn btn-info">Inicio</a>
+    </div>
+    <div class="table-responsive">
+        <table id="tabla" class="table table-dark table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Tipo de Transacción</th>
+                    <th scope="col">Fecha de Transacción</th>
+                    <th scope="col">Tabla Modificada</th>
+                    <th scope="col">Detalles</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in lista %}
+                <tr>
+                    <td>{{ item.tipo }}</td>
+                    <td>{{ item.fecha }}</td>
+                    <td>{{ item.tabla }}</td>
+                    <td>{{ item.detalles }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "template.html" %} {% block content %}
+<h2 class="text-white">Editar Inversionistas</h2>
+<div class="booking-form-body">
+    <a href="/" class="btn btn-danger">VOLVER</a>
+    <form action="/person/edit/{{ person.idPersona }}" method="post">
+        <input type="text" name="nombre" value="{{ person.nombre }}" required />
+        <input
+            type="text"
+            name="apellido"
+            value="{{ person.apellido }}"
+            required
+        />
+        <input type="text" name="cedula" value="{{ person.cedula }}" required />
+        <input
+            type="text"
+            name="telefono"
+            value="{{ person.telefono }}"
+            required
+        />
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+</div>
+{% endblock %}
