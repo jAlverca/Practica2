@@ -40,4 +40,28 @@ public class PersonaServicies {
         obj.delete(id);
     }
 
+    public LinkedList<Persona> quickSort(LinkedList<Persona> lista, Integer type_order, String atributo)
+            throws Exception {
+        LinkedList<Persona> lista_ordenada = obj.quickSort(lista, type_order, atributo);
+        return lista_ordenada;
+    }
+
+    public LinkedList<Persona> mergeSort(Integer type_order, String atributo) throws Exception {
+        LinkedList<Persona> lista_ordenada = obj.mergeSort(type_order, atributo);
+        return lista_ordenada;
+    }
+
+    public LinkedList<Persona> shellSort(Integer type_order, String atributo) throws Exception {
+        LinkedList<Persona> lista_ordenada = obj.shellSort(type_order, atributo);
+        return lista_ordenada;
+    }
+
+    public LinkedList<Persona> busquedaLinealBinaria(String atributo, String value) throws Exception {
+        return obj.busquedaLinealBinaria(atributo, value);
+    }
+
+    public Persona busquedaBinaria(String atributo, String value) throws Exception {
+        return obj.busquedaBinaria(atributo, value);
+    }
+
 }

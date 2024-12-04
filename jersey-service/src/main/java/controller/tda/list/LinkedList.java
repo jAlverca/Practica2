@@ -1,5 +1,6 @@
 package controller.tda.list;
 
+
 public class LinkedList<E> {
     private Node<E> header; // Nodo cabecera (el primer nodo de la lista)
     private Node<E> last; // Nodo último (el último nodo de la lista)
@@ -236,4 +237,162 @@ public class LinkedList<E> {
         }
     }
 
+    public LinkedList<E> cloneList() {
+        LinkedList<E> clone = new LinkedList<>();
+        Node<E> aux = header;
+        while (aux != null) {
+            clone.add(aux.getInfo());
+            aux = aux.getNext();
+        }
+        return clone;
+    }
+
+    public void shellSort(Integer type) {
+        int n = this.size;
+        for (int gap = n / 2; gap > 0; gap /= 2) {
+            for (int i = gap; i < n; i++) {
+                try {
+                    E temp = get(i);
+                    int j;
+                    for (j = i; j >= gap && compare(get(j - gap), temp, type); j -= gap) {
+                        update(get(j - gap), j);
+                    }
+                    update(temp, j);
+                } catch (ListEmptyException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void quickSort(Integer type) {
+        quickSort(0, this.size - 1, type);
+    }
+
+    private void quickSort(int low, int high, Integer type) {
+        if (low < high) {
+            try {
+                int pi = partition(low, high, type);
+                quickSort(low, pi - 1, type);
+                quickSort(pi + 1, high, type);
+            } catch (ListEmptyException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private int partition(int low, int high, Integer type) throws ListEmptyException {
+        E pivot = get(high);
+        int i = (low - 1);
+        for (int j = low; j < high; j++) {
+            if (compare(get(j), pivot, type)) {
+                i++;
+                E temp = get(i);
+                update(get(j), i);
+                update(temp, j);
+            }
+        }
+        E temp = get(i + 1);
+        update(get(high), i + 1);
+        update(temp, high);
+        return i + 1;
+    }
+
+    public void mergeSort(Integer type) {
+        mergeSort(0, this.size - 1, type);
+    }
+
+    private void mergeSort(int l, int r, Integer type) {
+        if (l < r) {
+            int m = (l + r) / 2;
+            mergeSort(l, m, type);
+            mergeSort(m + 1, r, type);
+            try {
+                merge(l, m, r, type);
+            } catch (ListEmptyException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void merge(int l, int m, int r, Integer type) throws ListEmptyException {
+        int n1 = m - l + 1;
+        int n2 = r - m;
+        E L[] = (E[]) new Object[n1];
+        E R[] = (E[]) new Object[n2];
+        for (int i = 0; i < n1; i++) {
+            L[i] = get(l + i);
+        }
+        for (int j = 0; j < n2; j++) {
+            R[j] = get(m + 1 + j);
+        }
+        int i = 0, j = 0;
+        int k = l;
+        while (i < n1 && j < n2) {
+            if (compare(L[i], R[j], type)) {
+                update(L[i], k);
+                i++;
+            } else {
+                update(R[j], k);
+                j++;
+            }
+            k++;
+        }
+        while (i < n1) {
+            update(L[i], k);
+            i++;
+            k++;
+        }
+        while (j < n2) {
+            update(R[j], k);
+            j++;
+            k++;
+        }
+    }
+
+    public Integer busquedaLinealBinaria(E value) {
+        Node<E> aux = header;
+        Integer cont = 0;
+        while (aux != null) {
+            if (aux.getInfo().equals(value)) {
+                return cont;
+            }
+            cont++;
+            aux = aux.getNext();
+        }
+        return -1;
+    }
+
+    public Integer busquedeBinaria(E value) {
+        return busquedeBinaria(value, 0, this.size - 1);
+    }
+
+    private Integer busquedeBinaria(E value, Integer low, Integer high) {
+        if (high >= low) {
+            try {
+                int mid = low + (high - low) / 2;
+                if (get(mid).equals(value)) {
+                    return mid;
+                }
+                if (compare(get(mid), value, 1)) {
+                    return busquedeBinaria(value, low, mid - 1);
+                }
+                return busquedeBinaria(value, mid + 1, high);
+            } catch (ListEmptyException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
+    private boolean compare(E a, E b, Integer type) {
+        if (type == 1) {
+            return ((Comparable<E>) a).compareTo(b) > 0;
+        } else {
+            return ((Comparable<E>) a).compareTo(b) < 0;
+        }
+    }
+    
 }
+
+

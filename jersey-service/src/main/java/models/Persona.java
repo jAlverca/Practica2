@@ -1,5 +1,7 @@
 package models;
 
+import java.util.HashMap;
+
 public class Persona {
     private int idPersona;
     private String nombre;
@@ -67,5 +69,15 @@ public class Persona {
                 ", cedula='" + cedula + '\'' +
                 ", telefono='" + telefono + '\'' +
                 '}';
+    }
+
+    public HashMap toHashMap() {
+        HashMap map = new HashMap();
+        map.put("idPersona", idPersona);
+        map.put("nombre", nombre);
+        map.put("apellido", apellido);
+        map.put("cedula", cedula);
+        map.put("telefono", telefono);
+        return map;
     }
 }

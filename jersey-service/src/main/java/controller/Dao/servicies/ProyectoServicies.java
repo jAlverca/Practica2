@@ -2,7 +2,6 @@ package controller.Dao.servicies;
 
 import controller.Dao.ProyectoDao;
 import controller.tda.list.LinkedList;
-import models.Persona;
 import models.Proyecto;
 
 public class ProyectoServicies {

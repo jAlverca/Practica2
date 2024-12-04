@@ -103,6 +103,30 @@ def delete_person(idPersona):
         print("Transacción guardada correctamente")
         flash('Transacción guardada correctamente', category='info')
         return redirect('/')
+    
+
+@router.route('/person/sort', methods=['POST'])
+def sort_person():
+    data = request.json
+    method = data.get('sortMethod')
+    atributo = data.get('sortField')
+    orden = data.get('sortOrder')
+    #print(f"Method: {method}, Atributo: {atributo}, Orden: {orden}")
+    r = requests.get(f"http://localhost:8083/api/person/sort/{method}/{atributo}/{orden}")
+    data = r.json()
+    return jsonify(data["data"])
+
+
+@router.route('/person/search', methods=['POST'])
+def search_person():
+    data = request.json
+    atributo = data.get('searchAttr')
+    valor = data.get('searchField')
+    print(f"Atributo: {atributo}, Valor: {valor}")
+    r = requests.get(f"http://localhost:8083/api/person/search/{atributo}/{valor}")
+    data = r.json()
+    print(f"Data: {data}")
+    return jsonify(data["data"])
 
 #!Proyectos -----------------------------------------
 

@@ -1,7 +1,6 @@
 package com.example.rest;
 
 import controller.Dao.servicies.PersonaServicies;
-import controller.Dao.servicies.TransaccionServices;
 import controller.tda.list.LinkedList;
 import models.Persona;
 
@@ -120,6 +119,7 @@ public class PersonaApi {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Path("/delete/{idPersona}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
@@ -138,4 +138,76 @@ public class PersonaApi {
             return Response.status(Status.INTERNAL_SERVER_ERROR).entity(res).build();
         }
     }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Path("/sort/{metodo}/{atributo}/{orden}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response sortPerson(@PathParam("metodo") String metodo, @PathParam("atributo") String atributo,
+            @PathParam("texto") String texto, @PathParam("orden") Integer orden) {
+        HashMap map = new HashMap<>();
+        PersonaServicies ps = new PersonaServicies();
+
+        System.out.println("Ordenando por: " + metodo + " " + atributo + " " + orden);
+
+        LinkedList<Persona> lista_ordenada = new LinkedList<>();
+
+        try {
+            switch (metodo) {
+                case "quickSort":
+                    lista_ordenada = ps.quickSort(ps.listAll(), orden, atributo);
+                    break;
+                case "mergeSort":
+                    lista_ordenada = ps.mergeSort(orden, atributo);
+                    break;
+                case "shellSort":
+                    lista_ordenada = ps.shellSort(orden, atributo);
+                    break;
+                default:
+                    break;
+            }
+            map.put("msg", "OK");
+            map.put("data", lista_ordenada.toArray());
+
+            System.out.println("Lista ordenada: " + lista_ordenada.toArray());
+
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "ERROR");
+            map.put("data", "Error al ordenar la lista: " + e.toString());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Path("/search/{atributo}/{valor}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response searchPerson(@PathParam("atributo") String atributo, @PathParam("valor") String valor) {
+        HashMap map = new HashMap<>();
+        PersonaServicies ps = new PersonaServicies();
+        try {
+
+            if (atributo.equals("cedula")) {
+                Persona p = ps.busquedaBinaria(atributo, valor);
+                map.put("data", p.toHashMap());
+            } else {
+                LinkedList<Persona> lista = ps.busquedaLinealBinaria(atributo, valor);
+                map.put("data", lista.toArray());
+
+            }
+            map.put("msg", "OK");
+            map.put("data", map.get("data"));
+
+            return Response.ok(map).build();
+        } catch (Exception e) {
+            map.put("msg", "ERROR");
+            map.put("data", "Error al buscar la persona: " + e.toString());
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(map).build();
+        }
+
+    }
+
+    
 }
+
