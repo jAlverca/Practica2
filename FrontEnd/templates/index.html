@@ -1,0 +1,48 @@
+{% extends 'template.html' %} {% block content %}
+
+<div class="text-white p-5 my-3">
+    <h1 class="h1 text-center mb-4">Lista de Inversionistas</h1>
+    <div class="container">
+        <div class="row justify-content-between mb-3">
+            <div class="col-auto">
+                <a href="/hospital/register" class="btn btn-info btn-sm">Agregar Hospitales</a>
+                <a href="/cargar_grafo/"  
+                target="_blank"
+                class="btn btn-info btn-sm mx-2">ver Grafo</a>
+                <a href="/administrar_grafo" class="btn btn-info btn-sm">Administrar Grafo</a>
+            </div>  
+
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <table class="table table-dark table-striped table-hover">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Direccion</th>
+                            <th scope="col">Longitud</th>
+                            <th scope="col">Latitud</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for valor in lista %}
+                        <tr>
+                            <td>{{ valor.nombre }}</td>
+                            <td>{{ valor.direccion }}</td>
+                            <td>{{ valor.longitud }}</td>
+                            <td>{{ valor.latitud }}</td>
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

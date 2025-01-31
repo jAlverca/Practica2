@@ -16,13 +16,18 @@ public class Main {
     public static final String BASE_URI = "http://localhost:8083/api/";
 
     /**
-     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this
+     * application.
+     * 
      * @return Grizzly HTTP server.
      */
     public static HttpServer startServer() {
         // create a resource config that scans for JAX-RS resources and providers
         // in com.example.rest package
         final ResourceConfig rc = new ResourceConfig().packages("com.example.rest");
+
+        // Register CORS filter
+        rc.register(CORSFilter.class);
 
         // create and start a new instance of grizzly http server
         // exposing the Jersey application at BASE_URI
@@ -31,6 +36,7 @@ public class Main {
 
     /**
      * Main method.
+     * 
      * @param args
      * @throws IOException
      */
@@ -42,4 +48,3 @@ public class Main {
         server.stop();
     }
 }
-
